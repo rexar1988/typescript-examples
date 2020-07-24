@@ -1,0 +1,86 @@
+@mixin active-tab {
+  background-color: #F5F5F5;
+}
+
+.step__header {
+  padding: 24px 15px;
+  color: #202020;
+  cursor: pointer;
+  font: {
+    weight: 600;
+    size: 14px;
+  };
+  display: flex;
+  align-items: center;
+  transition: all 0.3s ease-in-out;
+  user-select: none;
+
+  &:hover {
+    @include active-tab;
+  }
+}
+
+.step__marker {
+  background-color: #757575;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  margin-right: 8px;
+  font: {
+    size: 12px;
+  };
+
+  &--edit {
+    background: url("./img/icons.svg") no-repeat center;
+  }
+}
+
+.step__content {
+  overflow: hidden;
+  padding-left: 50px;
+  padding-right: 20px;
+  position: relative;
+}
+
+.step {
+  position: relative;
+
+  &:before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 60px;
+    bottom: -15px;
+    left: 26px;
+    background-color: #E0E0E0;
+    width: 1px;
+    z-index: 10;
+  }
+
+  &--current {
+    padding-bottom: 25px;
+
+    .step__header {
+      @include active-tab;
+      margin-bottom: 20px;
+    }
+
+    .step__marker {
+      background-color: #3F51B5;
+    }
+  }
+
+  &--editable {
+    .step__marker {
+      background-color: #3F51B5;
+    }
+  }
+
+  &--last:before {
+    content: none;
+  }
+}

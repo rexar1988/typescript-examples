@@ -1,0 +1,14 @@
+<div class="step" [class.step--current]="isCurrent" [class.step--last]="isLast" [class.step--editable]="isEditable">
+  <header *ngIf="title" class="step__header" (click)="onTitleClick()">
+    <div class="step__icon">
+      <div *ngIf="isEditable && !isCurrent; else stepCounter" class="step__marker step__marker--edit"></div>
+      <ng-template #stepCounter>
+        <div class="step__marker step__marker--counter">{{ stepIndex }}</div>
+      </ng-template>
+    </div>
+    <ng-container *ngTemplateOutlet="title"></ng-container>
+  </header>
+  <div class="step__content" [@step]="tabStatus">
+    <ng-content></ng-content>
+  </div>
+</div>

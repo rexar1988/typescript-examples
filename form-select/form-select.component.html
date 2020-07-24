@@ -1,0 +1,56 @@
+<div appDropDownContainer>
+  <div class="te-select" [ngClass]="classNames.join(' ')" tabindex="0">
+    <div class="te-select__placeholder"
+         [inlineSVG]="'common/img/arrow.svg'"
+         [replaceContents]="false"
+         (click)="getOpeningDirection($event)"
+         appDropDownTrigger
+    >
+      {{ (options[currentIndex] && options[currentIndex].label) || defaultLabel }}
+    </div>
+    <div class="te-select__dropdown"
+         [ngStyle]="openToTop ? {bottom: 'calc(100% + 1px)'} : {top: 'calc(100% + 1px)'}"
+         appDropDownArea
+    >
+      <div *ngIf="!options.length" class="te-select__item" appDropDownTrigger>{{defaultLabel || 'No options'}}</div>
+      <label for="te-select-search" *ngIf="search"
+           class="te-select__search"
+           [inlineSVG]="'common/img/form/search/search.svg'"
+           [prepend]="true"
+      >
+        <input id="te-select-search" type="text" [(ngModel)]="searchQuery" (ngModelChange)="searchQueryOnChange($event)" />
+      </label>
+      <div *ngIf="search && searchQuery && !(options | selectFilter:searchQuery).length"
+           class="te-select__item te-select__item--no-result"
+      >
+        No results found
+      </div>
+      <div [ngStyle]="((options | selectFilter:searchQuery).length > 4) && {height: dropdownHeight}"
+           [@.disabled]="searchQuery || searchQueryTouchedAndNull"
+      >
+        <ng-scrollbar>
+          <button *ngIf="resetLabel && (options[currentIndex] && options[currentIndex].label) && !searchQuery"
+                  @addRemoveElement
+                  type="button"
+                  tabindex="0"
+                  class="te-select__item"
+                  (click)="reset()"
+                  appDropDownTrigger
+          >
+            {{ resetLabel }}
+          </button>
+          <button *ngFor="let option of options | selectFilter:searchQuery; let i = index"
+                  tabindex="0"
+                  type="button"
+                  class="te-select__item"
+                  [ngClass]="{'te-select__item--active': i === currentIndex}"
+                  (click)="optionSelect(i)"
+                  appDropDownTrigger
+          >
+            {{ option.label }}
+          </button>
+        </ng-scrollbar>
+      </div>
+    </div>
+  </div>
+</div>
